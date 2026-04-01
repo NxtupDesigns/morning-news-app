@@ -441,12 +441,10 @@
       news.innerHTML = '<div class="loading-card">Loading news...</div>';
 
       try {
-        var targetUrl = "https://content.guardianapis.com/search?api-key=test&page-size=10&show-fields=trailText&order-by=newest";
-        var proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent(targetUrl);
+        
 
-        var response = await fetch(proxyUrl);
-        var wrapped = await response.json();
-        var data = JSON.parse(wrapped.contents);
+        var response = await fetch("/api/news");
+        var data = await response.json();
 
         var results = (data.response && data.response.results) ? data.response.results : [];
 
