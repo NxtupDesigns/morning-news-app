@@ -2,126 +2,510 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Morning News</title>
   <style>
+    :root {
+      --bg: #f6f3f8;
+      --surface: #fffbff;
+      --surface-2: #f3edf7;
+      --text: #1d1b20;
+      --text-soft: #49454f;
+      --primary: #6750a4;
+      --primary-soft: #e8def8;
+      --outline: #cac4d0;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
       margin: 0;
-      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #f8f5fb 0%, #f2eef6 100%);
+      color: var(--text);
+    }
+
+    .app {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+    }
+
+    .hero {
+      background: var(--surface);
+      border-radius: 32px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 8px 12px;
+      border-radius: 999px;
+      margin-bottom: 14px;
     }
 
     h1 {
-      text-align: center;
+      margin: 0;
+      font-size: 40px;
+      line-height: 1.05;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      margin-top: 12px;
+      color: var(--text-soft);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .chip {
+      background: var(--surface-2);
+      border: none;
+      border-radius: 999px;
+      padding: 10px 14px;
+      color: var(--text-soft);
+      font-size: 14px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      margin: 24px 4px 14px;
+      color: var(--text-soft);
+      font-weight: 700;
     }
 
     .card {
-      background: white;
-      padding: 15px;
-      margin: 15px auto;
-      max-width: 600px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      background: var(--surface);
+      border-radius: var(--radius-xl);
+      padding: 22px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+      border: 1px solid rgba(103, 80, 164, 0.06);
+    }
+
+    .category {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      padding: 7px 11px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+
+    .title {
+      margin: 0 0 14px;
+      font-size: 30px;
+      line-height: 1.2;
+    }
+
+    .summary {
+      margin: 0;
+      color: var(--text-soft);
+      font-size: 20px;
+      line-height: 1.65;
     }
 
     .word {
       cursor: pointer;
-      color: black;
+      border-radius: 8px;
+      padding: 1px 2px;
+      transition: background 0.15s ease;
     }
 
     .word:hover {
-      background: #e0e0e0;
+      background: #ede7f6;
     }
 
-    #popup {
+    .word:active {
+      background: #ddd0f3;
+    }
+
+    .popup-backdrop {
       position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: black;
-      color: white;
-      padding: 15px;
-      border-radius: 10px;
+      inset: 0;
+      background: rgba(29, 27, 32, 0.22);
       display: none;
+      z-index: 9998;
+    }
+
+    .popup {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      width: calc(100% - 24px);
+      max-width: 520px;
+      background: var(--surface);
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+      padding: 18px 18px 16px;
+      display: none;
+      z-index: 9999;
+      border: 1px solid rgba(103, 80, 164, 0.08);
+    }
+
+    .popup-word {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .popup-meaning {
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--text-soft);
+      margin-bottom: 8px;
+    }
+
+    .popup-translation {
+      font-size: 15px;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .popup-close {
+      margin-top: 14px;
+      border: none;
+      background: var(--primary-soft);
+      color: var(--primary);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .loading {
+      background: var(--surface);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      color: var(--text-soft);
+      font-size: 17px;
+    }
+
+    @media (max-width: 640px) {
+      .app {
+        padding: 14px 12px 28px;
+      }
+
+      .hero {
+        padding: 20px;
+        border-radius: 28px;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+
+      .title {
+        font-size: 22px;
+      }
+
+      .summary {
+        font-size: 17px;
+      }
+
+      .popup-word {
+        font-size: 20px;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="app">
+    <div class="hero">
+      <div class="badge">Morning English News</div>
+      <h1>Read the news in simple English</h1>
+      <div class="subtitle">
+        Short morning news with clickable words. Tap any word to see a short explanation and a German translation.
+      </div>
+      <div class="toolbar">
+        <div class="chip">Live news</div>
+        <div class="chip">Simple reading</div>
+        <div class="chip">Word help</div>
+      </div>
+    </div>
 
-<h1>Morning News</h1>
+    <div class="section-title">Top stories</div>
+    <div id="news" class="loading">Loading news...</div>
+  </div>
 
-<div id="news"></div>
+  <div id="popup-backdrop" class="popup-backdrop" onclick="closePopup()"></div>
 
-<div id="popup" style="
-  position: fixed;
-  left: 50%;
-  bottom: 30px;
-  transform: translateX(-50%);
-  background: black;
-  color: white;
-  padding: 14px 18px;
-  border-radius: 14px;
-  display: none;
-  max-width: 80%;
-  text-align: center;
-  font-size: 16px;
-  z-index: 9999;
-"></div>
+  <div id="popup" class="popup">
+    <div id="popup-word" class="popup-word"></div>
+    <div id="popup-meaning" class="popup-meaning"></div>
+    <div id="popup-translation" class="popup-translation"></div>
+    <button class="popup-close" onclick="closePopup()">Close</button>
+  </div>
 
-<script>
-const dictionary = {
-  climate: "weather over a long time",
-  summit: "important meeting",
-  cooperation: "working together",
-  energy: "power",
-  economy: "money system"
-};
+  <script>
+    const dictionary = {
+      climate: {
+        meaning: "the usual weather conditions in a place over a long time",
+        translation: "Klima"
+      },
+      summit: {
+        meaning: "an important meeting between leaders or officials",
+        translation: "Gipfeltreffen"
+      },
+      cooperation: {
+        meaning: "working together with other people or groups",
+        translation: "Zusammenarbeit"
+      },
+      energy: {
+        meaning: "power used for heat, light, or movement",
+        translation: "Energie"
+      },
+      economy: {
+        meaning: "the system of money, business, and trade in a country",
+        translation: "Wirtschaft"
+      },
+      support: {
+        meaning: "help that is given to someone",
+        translation: "Unterstützung"
+      },
+      government: {
+        meaning: "the group of people who run a country",
+        translation: "Regierung"
+      },
+      income: {
+        meaning: "money that a person earns",
+        translation: "Einkommen"
+      },
+      president: {
+        meaning: "the leader of a country in some political systems",
+        translation: "Präsident"
+      },
+      negotiators: {
+        meaning: "people who try to reach an agreement through discussion",
+        translation: "Verhandlungsführer"
+      },
+      ceasefire: {
+        meaning: "an agreement to stop fighting for a time",
+        translation: "Waffenruhe"
+      },
+      proposal: {
+        meaning: "a plan or suggestion for people to consider",
+        translation: "Vorschlag"
+      },
+      signals: {
+        meaning: "shows or suggests something without saying it directly",
+        translation: "signalisiert"
+      },
+      package: {
+        meaning: "a group of measures or actions offered together",
+        translation: "Paket"
+      },
+      household: {
+        meaning: "all the people living together in one home",
+        translation: "Haushalt"
+      },
+      bills: {
+        meaning: "amounts of money that must be paid",
+        translation: "Rechnungen"
+      },
+      nation: {
+        meaning: "a country and its people",
+        translation: "Nation"
+      },
+      operation: {
+        meaning: "an organized action or activity",
+        translation: "Operation"
+      },
+      markets: {
+        meaning: "places or systems where things are bought and sold",
+        translation: "Märkte"
+      },
+      prices: {
+        meaning: "the amount of money something costs",
+        translation: "Preise"
+      },
+      sharply: {
+        meaning: "quickly and strongly",
+        translation: "deutlich"
+      },
+      rallying: {
+        meaning: "rising again after a fall",
+        translation: "erholen sich"
+      },
+      hopes: {
+        meaning: "feelings that something good may happen",
+        translation: "Hoffnungen"
+      },
+      address: {
+        meaning: "to speak to a group of people formally",
+        translation: "ansprechen / eine Rede halten"
+      },
+      later: {
+        meaning: "after the present time",
+        translation: "später"
+      },
+      today: {
+        meaning: "on this day",
+        translation: "heute"
+      },
+      results: {
+        meaning: "the effects or outcomes of something",
+        translation: "Ergebnisse"
+      },
+      crisis: {
+        meaning: "a very difficult or dangerous situation",
+        translation: "Krise"
+      },
+      war: {
+        meaning: "fighting between countries or large groups",
+        translation: "Krieg"
+      },
+      attack: {
+        meaning: "a violent act against someone or something",
+        translation: "Angriff"
+      },
+      claim: {
+        meaning: "to say that something is true",
+        translation: "behaupten"
+      },
+      responsibility: {
+        meaning: "being the person or group that caused something",
+        translation: "Verantwortung"
+      },
+      barrel: {
+        meaning: "a unit used for measuring oil",
+        translation: "Barrel / Fass"
+      }
+    };
 
-async function loadNews() {
-  const res = await fetch("https://content.guardianapis.com/search?api-key=test&show-fields=trailText");
-  const data = await res.json();
+    function cleanWord(word) {
+      return word.toLowerCase().replace(/[^a-z]/g, "");
+    }
 
-  const container = document.getElementById("news");
-  container.innerHTML = "";
+    function makeClickable(text) {
+      return text
+        .split(/(\s+)/)
+        .map(part => {
+          if (part.trim() === "") return part;
+          const cleaned = cleanWord(part);
+          if (!cleaned) return part;
+          return `<span class="word" onclick="showMeaning('${part.replace(/'/g, "\\'")}')">${part}</span>`;
+        })
+        .join("");
+    }
 
-  data.response.results.slice(0,5).forEach(article => {
-    const div = document.createElement("div");
-    div.className = "card";
+    function simplifyText(text) {
+      if (!text) return "No summary available.";
+      const plain = text.replace(/<[^>]*>/g, "");
+      const sentences = plain
+        .split(".")
+        .map(s => s.trim())
+        .filter(s => s.length > 0);
 
-    const text = article.fields.trailText || "No summary available";
+      return sentences.slice(0, 3).join(". ") + ".";
+    }
 
-    div.innerHTML = `
-      <h3>${article.webTitle}</h3>
-      <p>${makeClickable(text)}</p>
-    `;
+    function getCategory(title) {
+      const lower = title.toLowerCase();
 
-    container.appendChild(div);
-  });
-}
+      if (lower.includes("war") || lower.includes("president") || lower.includes("ceasefire") || lower.includes("crisis")) {
+        return "World";
+      }
+      if (lower.includes("market") || lower.includes("prices") || lower.includes("economy") || lower.includes("business")) {
+        return "Business";
+      }
+      if (lower.includes("science") || lower.includes("research")) {
+        return "Science";
+      }
+      return "Top Story";
+    }
 
-function makeClickable(text) {
-  return text.split(" ").map(word => {
-    return `<span class="word" onclick="showMeaning('${word}')">${word}</span>`;
-  }).join(" ");
-}
+    function showMeaning(word) {
+      const cleaned = cleanWord(word);
+      const entry = dictionary[cleaned];
 
-function showMeaning(word) {
-  const popup = document.getElementById("popup");
-  const clean = word.toLowerCase().replace(/[^a-z]/g, "");
+      const popup = document.getElementById("popup");
+      const backdrop = document.getElementById("popup-backdrop");
 
-  const meaning = dictionary[clean] || "Simple English word";
+      document.getElementById("popup-word").innerText = word;
 
-  popup.innerText = word + ": " + meaning;
-  popup.style.display = "block";
+      if (entry) {
+        document.getElementById("popup-meaning").innerText = entry.meaning;
+        document.getElementById("popup-translation").innerText = "Deutsch: " + entry.translation;
+      } else {
+        document.getElementById("popup-meaning").innerText =
+          "This word appears in the news. A full version of the app could explain it in more detail.";
+        document.getElementById("popup-translation").innerText =
+          "Deutsch: keine gespeicherte Übersetzung";
+      }
 
-  setTimeout(() => {
-    popup.style.display = "none";
-  }, 2000);
-}
+      popup.style.display = "block";
+      backdrop.style.display = "block";
+    }
 
-loadNews();
-</script>
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
+      document.getElementById("popup-backdrop").style.display = "none";
+    }
 
+    async function loadNews() {
+      const container = document.getElementById("news");
+      container.className = "";
+      container.innerHTML = "Loading news...";
+
+      try {
+        const res = await fetch("https://api.allorigins.win/raw?url=https://content.guardianapis.com/search?api-key=test&show-fields=trailText");
+        const data = await res.json();
+
+        container.innerHTML = "";
+
+        const articles = data.response.results.slice(0, 6);
+
+        articles.forEach(article => {
+          const card = document.createElement("div");
+          card.className = "card";
+
+          const title = article.webTitle || "No title";
+          const summary = simplifyText(article.fields?.trailText || "No summary available.");
+          const category = getCategory(title);
+
+          card.innerHTML = `
+            <div class="category">${category}</div>
+            <h2 class="title">${title}</h2>
+            <p class="summary">${makeClickable(summary)}</p>
+          `;
+
+          container.appendChild(card);
+        });
+      } catch (error) {
+        container.className = "loading";
+        container.innerHTML = "Could not load news right now.";
+      }
+    }
+
+    loadNews();
+  </script>
+</body>
+</html>
 </body>
 </html>
