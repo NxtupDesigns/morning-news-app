@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Morning News</title>
+  <title>Morning English News</title>
   <style>
     :root {
-      --bg: #f6f3f8;
+      --bg: #f6f3f9;
       --surface: #fffbff;
       --surface-2: #f3edf7;
       --text: #1d1b20;
       --text-soft: #49454f;
       --primary: #6750a4;
       --primary-soft: #e8def8;
-      --outline: #cac4d0;
-      --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      --outline: #d0c7da;
+      --shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
       --radius-xl: 28px;
-      --radius-lg: 20px;
+      --radius-lg: 22px;
       --radius-md: 16px;
     }
 
@@ -27,14 +27,14 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(180deg, #f8f5fb 0%, #f2eef6 100%);
+      background: linear-gradient(180deg, #f8f5fb 0%, #f1edf5 100%);
       color: var(--text);
     }
 
     .app {
-      max-width: 860px;
+      max-width: 900px;
       margin: 0 auto;
-      padding: 20px 16px 40px;
+      padding: 18px 14px 40px;
     }
 
     .hero {
@@ -58,8 +58,8 @@
 
     h1 {
       margin: 0;
-      font-size: 40px;
-      line-height: 1.05;
+      font-size: 38px;
+      line-height: 1.08;
       letter-spacing: -0.5px;
     }
 
@@ -70,25 +70,50 @@
       line-height: 1.6;
     }
 
-    .toolbar {
+    .controls {
       display: flex;
-      gap: 12px;
       flex-wrap: wrap;
-      margin-top: 20px;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
     }
 
     .chip {
       background: var(--surface-2);
-      border: none;
+      color: var(--text-soft);
       border-radius: 999px;
       padding: 10px 14px;
-      color: var(--text-soft);
       font-size: 14px;
+      transition: 0.15s ease;
+    }
+
+    .chip:hover {
+      transform: translateY(-1px);
+    }
+
+    .chip.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .refresh-btn {
+      background: var(--primary);
+      color: white;
+      border-radius: 999px;
+      padding: 11px 16px;
+      font-size: 14px;
+      font-weight: 700;
+      box-shadow: var(--shadow);
     }
 
     .section-title {
       font-size: 18px;
-      margin: 24px 4px 14px;
+      margin: 24px 6px 14px;
       color: var(--text-soft);
       font-weight: 700;
     }
@@ -106,7 +131,6 @@
       display: inline-block;
       font-size: 12px;
       font-weight: 700;
-      letter-spacing: 0.2px;
       background: var(--primary-soft);
       color: var(--primary);
       padding: 7px 11px;
@@ -116,15 +140,15 @@
 
     .title {
       margin: 0 0 14px;
-      font-size: 30px;
+      font-size: 28px;
       line-height: 1.2;
     }
 
     .summary {
       margin: 0;
       color: var(--text-soft);
-      font-size: 20px;
-      line-height: 1.65;
+      font-size: 18px;
+      line-height: 1.7;
     }
 
     .word {
@@ -142,10 +166,19 @@
       background: #ddd0f3;
     }
 
+    .loading-card {
+      background: var(--surface);
+      border-radius: var(--radius-xl);
+      padding: 22px;
+      box-shadow: var(--shadow);
+      color: var(--text-soft);
+      font-size: 17px;
+    }
+
     .popup-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(29, 27, 32, 0.22);
+      background: rgba(29, 27, 32, 0.24);
       display: none;
       z-index: 9998;
     }
@@ -153,14 +186,14 @@
     .popup {
       position: fixed;
       left: 50%;
-      bottom: 18px;
+      bottom: 16px;
       transform: translateX(-50%);
       width: calc(100% - 24px);
       max-width: 520px;
       background: var(--surface);
       border-radius: 24px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
-      padding: 18px 18px 16px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+      padding: 18px;
       display: none;
       z-index: 9999;
       border: 1px solid rgba(103, 80, 164, 0.08);
@@ -170,12 +203,11 @@
       font-size: 22px;
       font-weight: 700;
       margin-bottom: 8px;
-      color: var(--text);
     }
 
     .popup-meaning {
       font-size: 16px;
-      line-height: 1.5;
+      line-height: 1.55;
       color: var(--text-soft);
       margin-bottom: 8px;
     }
@@ -184,33 +216,18 @@
       font-size: 15px;
       color: var(--primary);
       font-weight: 700;
+      margin-bottom: 14px;
     }
 
     .popup-close {
-      margin-top: 14px;
-      border: none;
       background: var(--primary-soft);
       color: var(--primary);
-      padding: 10px 14px;
       border-radius: 999px;
+      padding: 10px 14px;
       font-weight: 700;
-      cursor: pointer;
-    }
-
-    .loading {
-      background: var(--surface);
-      border-radius: var(--radius-xl);
-      padding: 24px;
-      box-shadow: var(--shadow);
-      color: var(--text-soft);
-      font-size: 17px;
     }
 
     @media (max-width: 640px) {
-      .app {
-        padding: 14px 12px 28px;
-      }
-
       .hero {
         padding: 20px;
         border-radius: 28px;
@@ -227,10 +244,6 @@
       .summary {
         font-size: 17px;
       }
-
-      .popup-word {
-        font-size: 20px;
-      }
     }
   </style>
 </head>
@@ -242,270 +255,243 @@
       <div class="subtitle">
         Short morning news with clickable words. Tap any word to see a short explanation and a German translation.
       </div>
-      <div class="toolbar">
-        <div class="chip">Live news</div>
-        <div class="chip">Simple reading</div>
-        <div class="chip">Word help</div>
+
+      <div class="controls">
+        <button class="refresh-btn" id="refreshBtn">Refresh news</button>
+        <button class="chip active" data-filter="All">All</button>
+        <button class="chip" data-filter="World">World</button>
+        <button class="chip" data-filter="Business">Business</button>
+        <button class="chip" data-filter="Science">Science</button>
+        <button class="chip" data-filter="Technology">Technology</button>
       </div>
     </div>
 
     <div class="section-title">Top stories</div>
-    <div id="news" class="loading">Loading news...</div>
+    <div id="news">
+      <div class="loading-card">Loading news...</div>
+    </div>
   </div>
 
-  <div id="popup-backdrop" class="popup-backdrop" onclick="closePopup()"></div>
+  <div id="popupBackdrop" class="popup-backdrop"></div>
 
   <div id="popup" class="popup">
-    <div id="popup-word" class="popup-word"></div>
-    <div id="popup-meaning" class="popup-meaning"></div>
-    <div id="popup-translation" class="popup-translation"></div>
-    <button class="popup-close" onclick="closePopup()">Close</button>
+    <div id="popupWord" class="popup-word"></div>
+    <div id="popupMeaning" class="popup-meaning"></div>
+    <div id="popupTranslation" class="popup-translation"></div>
+    <button class="popup-close" id="closePopupBtn">Close</button>
   </div>
 
   <script>
-    const dictionary = {
-      climate: {
-        meaning: "the usual weather conditions in a place over a long time",
-        translation: "Klima"
-      },
-      summit: {
-        meaning: "an important meeting between leaders or officials",
-        translation: "Gipfeltreffen"
-      },
-      cooperation: {
-        meaning: "working together with other people or groups",
-        translation: "Zusammenarbeit"
-      },
-      energy: {
-        meaning: "power used for heat, light, or movement",
-        translation: "Energie"
-      },
-      economy: {
-        meaning: "the system of money, business, and trade in a country",
-        translation: "Wirtschaft"
-      },
-      support: {
-        meaning: "help that is given to someone",
-        translation: "Unterstützung"
-      },
-      government: {
-        meaning: "the group of people who run a country",
-        translation: "Regierung"
-      },
-      income: {
-        meaning: "money that a person earns",
-        translation: "Einkommen"
-      },
-      president: {
-        meaning: "the leader of a country in some political systems",
-        translation: "Präsident"
-      },
-      negotiators: {
-        meaning: "people who try to reach an agreement through discussion",
-        translation: "Verhandlungsführer"
-      },
-      ceasefire: {
-        meaning: "an agreement to stop fighting for a time",
-        translation: "Waffenruhe"
-      },
-      proposal: {
-        meaning: "a plan or suggestion for people to consider",
-        translation: "Vorschlag"
-      },
-      signals: {
-        meaning: "shows or suggests something without saying it directly",
-        translation: "signalisiert"
-      },
-      package: {
-        meaning: "a group of measures or actions offered together",
-        translation: "Paket"
-      },
-      household: {
-        meaning: "all the people living together in one home",
-        translation: "Haushalt"
-      },
-      bills: {
-        meaning: "amounts of money that must be paid",
-        translation: "Rechnungen"
-      },
-      nation: {
-        meaning: "a country and its people",
-        translation: "Nation"
-      },
-      operation: {
-        meaning: "an organized action or activity",
-        translation: "Operation"
-      },
-      markets: {
-        meaning: "places or systems where things are bought and sold",
-        translation: "Märkte"
-      },
-      prices: {
-        meaning: "the amount of money something costs",
-        translation: "Preise"
-      },
-      sharply: {
-        meaning: "quickly and strongly",
-        translation: "deutlich"
-      },
-      rallying: {
-        meaning: "rising again after a fall",
-        translation: "erholen sich"
-      },
-      hopes: {
-        meaning: "feelings that something good may happen",
-        translation: "Hoffnungen"
-      },
-      address: {
-        meaning: "to speak to a group of people formally",
-        translation: "ansprechen / eine Rede halten"
-      },
-      later: {
-        meaning: "after the present time",
-        translation: "später"
-      },
-      today: {
-        meaning: "on this day",
-        translation: "heute"
-      },
-      results: {
-        meaning: "the effects or outcomes of something",
-        translation: "Ergebnisse"
-      },
-      crisis: {
-        meaning: "a very difficult or dangerous situation",
-        translation: "Krise"
-      },
-      war: {
-        meaning: "fighting between countries or large groups",
-        translation: "Krieg"
-      },
-      attack: {
-        meaning: "a violent act against someone or something",
-        translation: "Angriff"
-      },
-      claim: {
-        meaning: "to say that something is true",
-        translation: "behaupten"
-      },
-      responsibility: {
-        meaning: "being the person or group that caused something",
-        translation: "Verantwortung"
-      },
-      barrel: {
-        meaning: "a unit used for measuring oil",
-        translation: "Barrel / Fass"
-      }
+    var dictionary = {
+      climate: { meaning: "the usual weather in a place over a long time", translation: "Klima" },
+      summit: { meaning: "an important meeting between leaders", translation: "Gipfeltreffen" },
+      cooperation: { meaning: "working together with other people", translation: "Zusammenarbeit" },
+      energy: { meaning: "power used for heat, light, or movement", translation: "Energie" },
+      economy: { meaning: "the money and business system of a country", translation: "Wirtschaft" },
+      support: { meaning: "help that is given to someone", translation: "Unterstützung" },
+      government: { meaning: "the people who run a country", translation: "Regierung" },
+      income: { meaning: "money that a person earns", translation: "Einkommen" },
+      president: { meaning: "the leader of a country in some systems", translation: "Präsident" },
+      negotiators: { meaning: "people who try to reach an agreement by talking", translation: "Verhandlungsführer" },
+      ceasefire: { meaning: "an agreement to stop fighting for some time", translation: "Waffenruhe" },
+      proposal: { meaning: "a plan or suggestion", translation: "Vorschlag" },
+      package: { meaning: "a group of measures offered together", translation: "Paket" },
+      household: { meaning: "all the people living in one home", translation: "Haushalt" },
+      bills: { meaning: "amounts of money that must be paid", translation: "Rechnungen" },
+      nation: { meaning: "a country and its people", translation: "Nation" },
+      operation: { meaning: "an organized action or activity", translation: "Operation" },
+      markets: { meaning: "systems where things are bought and sold", translation: "Märkte" },
+      prices: { meaning: "how much money something costs", translation: "Preise" },
+      sharply: { meaning: "quickly and strongly", translation: "deutlich" },
+      hopes: { meaning: "feelings that something good may happen", translation: "Hoffnungen" },
+      address: { meaning: "to speak to people formally", translation: "ansprechen / eine Rede halten" },
+      results: { meaning: "the outcomes of something", translation: "Ergebnisse" },
+      crisis: { meaning: "a very difficult or dangerous situation", translation: "Krise" },
+      war: { meaning: "fighting between countries or large groups", translation: "Krieg" },
+      attack: { meaning: "a violent act against someone or something", translation: "Angriff" },
+      responsibility: { meaning: "being the one who caused something", translation: "Verantwortung" },
+      barrel: { meaning: "a unit used to measure oil", translation: "Fass / Barrel" },
+      oil: { meaning: "a thick liquid used for fuel", translation: "Öl" },
+      live: { meaning: "happening right now", translation: "live / aktuell" },
+      talks: { meaning: "discussions between people or groups", translation: "Gespräche" },
+      later: { meaning: "after now", translation: "später" },
+      today: { meaning: "on this day", translation: "heute" },
+      officials: { meaning: "people with an important public job", translation: "Beamte / Verantwortliche" },
+      minister: { meaning: "a high-ranking government leader", translation: "Minister" },
+      leader: { meaning: "a person who guides or controls a group", translation: "Anführer / Leiter" },
+      leaders: { meaning: "people who guide or control a group", translation: "Führungspersonen" },
+      plan: { meaning: "an idea for how to do something", translation: "Plan" },
+      plans: { meaning: "ideas for how to do something", translation: "Pläne" },
+      growth: { meaning: "an increase in size or success", translation: "Wachstum" },
+      trade: { meaning: "buying and selling between people or countries", translation: "Handel" },
+      deal: { meaning: "an agreement", translation: "Abkommen / Deal" },
+      deals: { meaning: "agreements", translation: "Abkommen / Deals" },
+      change: { meaning: "to become different", translation: "ändern / Veränderung" },
+      changes: { meaning: "things that become different", translation: "Veränderungen" },
+      global: { meaning: "connected with the whole world", translation: "global / weltweit" },
+      public: { meaning: "for everyone, not private", translation: "öffentlich" }
     };
 
-    function cleanWord(word) {
-      return word.toLowerCase().replace(/[^a-z]/g, "");
-    }
+    var allArticles = [];
+    var currentFilter = "All";
 
-    function makeClickable(text) {
-      return text
-        .split(/(\s+)/)
-        .map(part => {
-          if (part.trim() === "") return part;
-          const cleaned = cleanWord(part);
-          if (!cleaned) return part;
-          return `<span class="word" onclick="showMeaning('${part.replace(/'/g, "\\'")}')">${part}</span>`;
-        })
-        .join("");
+    function cleanWord(word) {
+      return String(word || "").toLowerCase().replace(/[^a-z]/g, "");
     }
 
     function simplifyText(text) {
       if (!text) return "No summary available.";
-      const plain = text.replace(/<[^>]*>/g, "");
-      const sentences = plain
-        .split(".")
-        .map(s => s.trim())
-        .filter(s => s.length > 0);
-
-      return sentences.slice(0, 3).join(". ") + ".";
+      var plain = text.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+      var sentences = plain.match(/[^.!?]+[.!?]?/g) || [plain];
+      return sentences.slice(0, 3).join(" ").trim();
     }
 
-    function getCategory(title) {
-      const lower = title.toLowerCase();
+    function getCategory(sectionName, title) {
+      var s = String(sectionName || "").toLowerCase();
+      var t = String(title || "").toLowerCase();
 
-      if (lower.includes("war") || lower.includes("president") || lower.includes("ceasefire") || lower.includes("crisis")) {
+      if (s.indexOf("world") !== -1 || s.indexOf("politics") !== -1 || t.indexOf("war") !== -1 || t.indexOf("president") !== -1) {
         return "World";
       }
-      if (lower.includes("market") || lower.includes("prices") || lower.includes("economy") || lower.includes("business")) {
+      if (s.indexOf("business") !== -1 || s.indexOf("money") !== -1 || t.indexOf("market") !== -1 || t.indexOf("prices") !== -1) {
         return "Business";
       }
-      if (lower.includes("science") || lower.includes("research")) {
+      if (s.indexOf("science") !== -1 || s.indexOf("environment") !== -1) {
         return "Science";
       }
-      return "Top Story";
+      if (s.indexOf("technology") !== -1 || s.indexOf("tech") !== -1) {
+        return "Technology";
+      }
+      return "World";
+    }
+
+    function makeClickable(text) {
+      return text.split(/(\s+)/).map(function(part) {
+        if (!part.trim()) return part;
+
+        var cleaned = cleanWord(part);
+        if (!cleaned) return part;
+
+        var span = '<span class="word" data-word="' + part.replace(/"/g, "&quot;") + '">' + part + '</span>';
+        return span;
+      }).join("");
     }
 
     function showMeaning(word) {
-      const cleaned = cleanWord(word);
-      const entry = dictionary[cleaned];
+      var cleaned = cleanWord(word);
+      var entry = dictionary[cleaned];
 
-      const popup = document.getElementById("popup");
-      const backdrop = document.getElementById("popup-backdrop");
-
-      document.getElementById("popup-word").innerText = word;
+      document.getElementById("popupWord").innerText = word;
 
       if (entry) {
-        document.getElementById("popup-meaning").innerText = entry.meaning;
-        document.getElementById("popup-translation").innerText = "Deutsch: " + entry.translation;
+        document.getElementById("popupMeaning").innerText = entry.meaning;
+        document.getElementById("popupTranslation").innerText = "Deutsch: " + entry.translation;
       } else {
-        document.getElementById("popup-meaning").innerText =
-          "This word appears in the news. A full version of the app could explain it in more detail.";
-        document.getElementById("popup-translation").innerText =
-          "Deutsch: keine gespeicherte Übersetzung";
+        document.getElementById("popupMeaning").innerText = "No saved explanation for this word yet.";
+        document.getElementById("popupTranslation").innerText = "Deutsch: keine gespeicherte Übersetzung";
       }
 
-      popup.style.display = "block";
-      backdrop.style.display = "block";
+      document.getElementById("popup").style.display = "block";
+      document.getElementById("popupBackdrop").style.display = "block";
     }
 
     function closePopup() {
       document.getElementById("popup").style.display = "none";
-      document.getElementById("popup-backdrop").style.display = "none";
+      document.getElementById("popupBackdrop").style.display = "none";
+    }
+
+    function renderNews() {
+      var news = document.getElementById("news");
+      news.innerHTML = "";
+
+      var filtered = allArticles.filter(function(article) {
+        return currentFilter === "All" || article.category === currentFilter;
+      });
+
+      if (filtered.length === 0) {
+        news.innerHTML = '<div class="loading-card">No news found in this category.</div>';
+        return;
+      }
+
+      filtered.forEach(function(article) {
+        var card = document.createElement("div");
+        card.className = "card";
+
+        var category = document.createElement("div");
+        category.className = "category";
+        category.textContent = article.category;
+
+        var title = document.createElement("h2");
+        title.className = "title";
+        title.textContent = article.title;
+
+        var summary = document.createElement("p");
+        summary.className = "summary";
+        summary.innerHTML = makeClickable(article.summary);
+
+        card.appendChild(category);
+        card.appendChild(title);
+        card.appendChild(summary);
+        news.appendChild(card);
+      });
     }
 
     async function loadNews() {
-      const container = document.getElementById("news");
-      container.className = "";
-      container.innerHTML = "Loading news...";
+      var news = document.getElementById("news");
+      news.innerHTML = '<div class="loading-card">Loading news...</div>';
 
       try {
-        const res = await fetch("https://api.allorigins.win/raw?url=https://content.guardianapis.com/search?api-key=test&show-fields=trailText");
-        const data = await res.json();
+        var targetUrl = "https://content.guardianapis.com/search?api-key=test&page-size=10&show-fields=trailText&order-by=newest";
+        var proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent(targetUrl);
 
-        container.innerHTML = "";
+        var response = await fetch(proxyUrl);
+        var wrapped = await response.json();
+        var data = JSON.parse(wrapped.contents);
 
-        const articles = data.response.results.slice(0, 6);
+        var results = (data.response && data.response.results) ? data.response.results : [];
 
-        articles.forEach(article => {
-          const card = document.createElement("div");
-          card.className = "card";
-
-          const title = article.webTitle || "No title";
-          const summary = simplifyText(article.fields?.trailText || "No summary available.");
-          const category = getCategory(title);
-
-          card.innerHTML = `
-            <div class="category">${category}</div>
-            <h2 class="title">${title}</h2>
-            <p class="summary">${makeClickable(summary)}</p>
-          `;
-
-          container.appendChild(card);
+        allArticles = results.map(function(article) {
+          return {
+            title: article.webTitle || "No title",
+            summary: simplifyText(article.fields && article.fields.trailText ? article.fields.trailText : ""),
+            category: getCategory(article.sectionName, article.webTitle)
+          };
         });
+
+        renderNews();
       } catch (error) {
-        container.className = "loading";
-        container.innerHTML = "Could not load news right now.";
+        console.error(error);
+        news.innerHTML = '<div class="loading-card">Could not load news right now. Tap "Refresh news".</div>';
       }
     }
 
+    document.getElementById("refreshBtn").addEventListener("click", function() {
+      loadNews();
+    });
+
+    document.querySelectorAll(".chip").forEach(function(button) {
+      button.addEventListener("click", function() {
+        document.querySelectorAll(".chip").forEach(function(b) {
+          b.classList.remove("active");
+        });
+
+        button.classList.add("active");
+        currentFilter = button.getAttribute("data-filter");
+        renderNews();
+      });
+    });
+
+    document.getElementById("news").addEventListener("click", function(event) {
+      if (event.target.classList.contains("word")) {
+        var word = event.target.getAttribute("data-word");
+        showMeaning(word);
+      }
+    });
+
+    document.getElementById("closePopupBtn").addEventListener("click", closePopup);
+    document.getElementById("popupBackdrop").addEventListener("click", closePopup);
+
     loadNews();
   </script>
-</body>
-</html>
 </body>
 </html>
