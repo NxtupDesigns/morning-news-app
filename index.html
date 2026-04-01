@@ -9,11 +9,14 @@
       --bg: #f6f3f9;
       --surface: #fffbff;
       --surface-2: #f3edf7;
+      --surface-3: #ece6f0;
       --text: #1d1b20;
       --text-soft: #49454f;
       --primary: #6750a4;
       --primary-soft: #e8def8;
       --outline: #d0c7da;
+      --danger: #b3261e;
+      --danger-soft: #f9dedc;
       --shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
       --radius-xl: 28px;
       --radius-lg: 22px;
@@ -32,7 +35,7 @@
     }
 
     .app {
-      max-width: 900px;
+      max-width: 980px;
       margin: 0 auto;
       padding: 18px 14px 40px;
     }
@@ -70,7 +73,8 @@
       line-height: 1.6;
     }
 
-    .controls {
+    .controls,
+    .tabs {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
@@ -96,12 +100,15 @@
       transform: translateY(-1px);
     }
 
-    .chip.active {
+    .chip.active,
+    .tab-btn.active {
       background: var(--primary);
       color: white;
     }
 
-    .refresh-btn {
+    .refresh-btn,
+    .tab-btn,
+    .primary-btn {
       background: var(--primary);
       color: white;
       border-radius: 999px;
@@ -111,11 +118,38 @@
       box-shadow: var(--shadow);
     }
 
+    .secondary-btn {
+      background: var(--surface-2);
+      color: var(--primary);
+      border-radius: 999px;
+      padding: 11px 16px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .danger-btn {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .section-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 24px 6px 14px;
+      flex-wrap: wrap;
+    }
+
     .section-title {
       font-size: 18px;
-      margin: 24px 6px 14px;
       color: var(--text-soft);
       font-weight: 700;
+      margin: 0;
     }
 
     .card {
@@ -175,6 +209,10 @@
       font-size: 17px;
     }
 
+    .hidden {
+      display: none;
+    }
+
     .popup-backdrop {
       position: fixed;
       inset: 0;
@@ -189,7 +227,7 @@
       bottom: 16px;
       transform: translateX(-50%);
       width: calc(100% - 24px);
-      max-width: 520px;
+      max-width: 560px;
       background: var(--surface);
       border-radius: 24px;
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
@@ -200,9 +238,15 @@
     }
 
     .popup-word {
-      font-size: 22px;
+      font-size: 24px;
       font-weight: 700;
       margin-bottom: 8px;
+    }
+
+    .popup-meta {
+      font-size: 13px;
+      color: var(--text-soft);
+      margin-bottom: 10px;
     }
 
     .popup-meaning {
@@ -219,12 +263,100 @@
       margin-bottom: 14px;
     }
 
-    .popup-close {
-      background: var(--primary-soft);
-      color: var(--primary);
-      border-radius: 999px;
-      padding: 10px 14px;
+    .popup-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .study-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .study-item {
+      background: var(--surface);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(103, 80, 164, 0.06);
+    }
+
+    .study-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .study-word {
+      font-size: 22px;
       font-weight: 700;
+      margin: 0;
+    }
+
+    .study-translation {
+      color: var(--primary);
+      font-weight: 700;
+      margin: 6px 0 10px;
+    }
+
+    .study-meaning {
+      color: var(--text-soft);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .flashcard-wrap {
+      margin-top: 16px;
+    }
+
+    .flashcard {
+      background: var(--surface);
+      border-radius: 28px;
+      min-height: 220px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(103, 80, 164, 0.06);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .flashcard-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--primary-soft);
+      border-radius: 999px;
+      padding: 8px 12px;
+      display: inline-block;
+      align-self: center;
+      margin-bottom: 16px;
+    }
+
+    .flashcard-main {
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .flashcard-sub {
+      color: var(--text-soft);
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .flashcard-actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
     }
 
     @media (max-width: 640px) {
@@ -244,6 +376,10 @@
       .summary {
         font-size: 17px;
       }
+
+      .flashcard-main {
+        font-size: 24px;
+      }
     }
   </style>
 </head>
@@ -253,10 +389,17 @@
       <div class="badge">Morning English News</div>
       <h1>Read the news in simple English</h1>
       <div class="subtitle">
-        Short morning news with clickable words. Tap any word to see a short explanation and a German translation.
+        Tap any word for a short explanation and German translation. Save unknown words and learn them later with flashcards.
       </div>
 
-      <div class="controls">
+      <div class="tabs">
+        <button class="tab-btn active" id="newsTabBtn">News</button>
+        <button class="tab-btn secondary-btn" id="studyTabBtn" style="background: var(--surface-2); color: var(--primary); box-shadow: none;">
+          Unknown words
+        </button>
+      </div>
+
+      <div class="controls" id="newsControls">
         <button class="refresh-btn" id="refreshBtn">Refresh news</button>
         <button class="chip active" data-filter="All">All</button>
         <button class="chip" data-filter="World">World</button>
@@ -266,9 +409,32 @@
       </div>
     </div>
 
-    <div class="section-title">Top stories</div>
-    <div id="news">
-      <div class="loading-card">Loading news...</div>
+    <div id="newsSection">
+      <div class="section-row">
+        <h2 class="section-title">Top stories</h2>
+      </div>
+      <div id="news">
+        <div class="loading-card">Loading news...</div>
+      </div>
+    </div>
+
+    <div id="studySection" class="hidden">
+      <div class="section-row">
+        <h2 class="section-title">Your unknown words</h2>
+        <button class="danger-btn" id="clearStudyBtn">Clear all</button>
+      </div>
+
+      <div id="studyList">
+        <div class="loading-card">No saved words yet. Open a word popup and add a word.</div>
+      </div>
+
+      <div class="section-row">
+        <h2 class="section-title">Flashcards</h2>
+      </div>
+
+      <div class="flashcard-wrap" id="flashcardWrap">
+        <div class="loading-card">Add some unknown words first to start learning.</div>
+      </div>
     </div>
   </div>
 
@@ -276,67 +442,41 @@
 
   <div id="popup" class="popup">
     <div id="popupWord" class="popup-word"></div>
+    <div id="popupMeta" class="popup-meta"></div>
     <div id="popupMeaning" class="popup-meaning"></div>
     <div id="popupTranslation" class="popup-translation"></div>
-    <button class="popup-close" id="closePopupBtn">Close</button>
+
+    <div class="popup-actions">
+      <button class="primary-btn" id="addStudyBtn">Add to unknown words</button>
+      <button class="secondary-btn" id="closePopupBtn">Close</button>
+    </div>
   </div>
 
   <script>
-    var dictionary = {
-      climate: { meaning: "the usual weather in a place over a long time", translation: "Klima" },
-      summit: { meaning: "an important meeting between leaders", translation: "Gipfeltreffen" },
-      cooperation: { meaning: "working together with other people", translation: "Zusammenarbeit" },
-      energy: { meaning: "power used for heat, light, or movement", translation: "Energie" },
-      economy: { meaning: "the money and business system of a country", translation: "Wirtschaft" },
-      support: { meaning: "help that is given to someone", translation: "Unterstützung" },
-      government: { meaning: "the people who run a country", translation: "Regierung" },
-      income: { meaning: "money that a person earns", translation: "Einkommen" },
-      president: { meaning: "the leader of a country in some systems", translation: "Präsident" },
-      negotiators: { meaning: "people who try to reach an agreement by talking", translation: "Verhandlungsführer" },
-      ceasefire: { meaning: "an agreement to stop fighting for some time", translation: "Waffenruhe" },
-      proposal: { meaning: "a plan or suggestion", translation: "Vorschlag" },
-      package: { meaning: "a group of measures offered together", translation: "Paket" },
-      household: { meaning: "all the people living in one home", translation: "Haushalt" },
-      bills: { meaning: "amounts of money that must be paid", translation: "Rechnungen" },
-      nation: { meaning: "a country and its people", translation: "Nation" },
-      operation: { meaning: "an organized action or activity", translation: "Operation" },
-      markets: { meaning: "systems where things are bought and sold", translation: "Märkte" },
-      prices: { meaning: "how much money something costs", translation: "Preise" },
-      sharply: { meaning: "quickly and strongly", translation: "deutlich" },
-      hopes: { meaning: "feelings that something good may happen", translation: "Hoffnungen" },
-      address: { meaning: "to speak to people formally", translation: "ansprechen / eine Rede halten" },
-      results: { meaning: "the outcomes of something", translation: "Ergebnisse" },
-      crisis: { meaning: "a very difficult or dangerous situation", translation: "Krise" },
-      war: { meaning: "fighting between countries or large groups", translation: "Krieg" },
-      attack: { meaning: "a violent act against someone or something", translation: "Angriff" },
-      responsibility: { meaning: "being the one who caused something", translation: "Verantwortung" },
-      barrel: { meaning: "a unit used to measure oil", translation: "Fass / Barrel" },
-      oil: { meaning: "a thick liquid used for fuel", translation: "Öl" },
-      live: { meaning: "happening right now", translation: "live / aktuell" },
-      talks: { meaning: "discussions between people or groups", translation: "Gespräche" },
-      later: { meaning: "after now", translation: "später" },
-      today: { meaning: "on this day", translation: "heute" },
-      officials: { meaning: "people with an important public job", translation: "Beamte / Verantwortliche" },
-      minister: { meaning: "a high-ranking government leader", translation: "Minister" },
-      leader: { meaning: "a person who guides or controls a group", translation: "Anführer / Leiter" },
-      leaders: { meaning: "people who guide or control a group", translation: "Führungspersonen" },
-      plan: { meaning: "an idea for how to do something", translation: "Plan" },
-      plans: { meaning: "ideas for how to do something", translation: "Pläne" },
-      growth: { meaning: "an increase in size or success", translation: "Wachstum" },
-      trade: { meaning: "buying and selling between people or countries", translation: "Handel" },
-      deal: { meaning: "an agreement", translation: "Abkommen / Deal" },
-      deals: { meaning: "agreements", translation: "Abkommen / Deals" },
-      change: { meaning: "to become different", translation: "ändern / Veränderung" },
-      changes: { meaning: "things that become different", translation: "Veränderungen" },
-      global: { meaning: "connected with the whole world", translation: "global / weltweit" },
-      public: { meaning: "for everyone, not private", translation: "öffentlich" }
-    };
-
     var allArticles = [];
     var currentFilter = "All";
+    var currentPopupEntry = null;
+    var currentFlashIndex = 0;
+    var flashcardFlipped = false;
+
+    var wordCache = loadJSON("wordCacheV1", {});
+    var studyWords = loadJSON("studyWordsV1", []);
+
+    function loadJSON(key, fallback) {
+      try {
+        var raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+      } catch (e) {
+        return fallback;
+      }
+    }
+
+    function saveJSON(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
 
     function cleanWord(word) {
-      return String(word || "").toLowerCase().replace(/[^a-z]/g, "");
+      return String(word || "").toLowerCase().replace(/[^a-z'-]/g, "").trim();
     }
 
     function simplifyText(text) {
@@ -350,10 +490,20 @@
       var s = String(sectionName || "").toLowerCase();
       var t = String(title || "").toLowerCase();
 
-      if (s.indexOf("world") !== -1 || s.indexOf("politics") !== -1 || t.indexOf("war") !== -1 || t.indexOf("president") !== -1) {
+      if (
+        s.indexOf("world") !== -1 ||
+        s.indexOf("politics") !== -1 ||
+        t.indexOf("war") !== -1 ||
+        t.indexOf("president") !== -1
+      ) {
         return "World";
       }
-      if (s.indexOf("business") !== -1 || s.indexOf("money") !== -1 || t.indexOf("market") !== -1 || t.indexOf("prices") !== -1) {
+      if (
+        s.indexOf("business") !== -1 ||
+        s.indexOf("money") !== -1 ||
+        t.indexOf("market") !== -1 ||
+        t.indexOf("prices") !== -1
+      ) {
         return "Business";
       }
       if (s.indexOf("science") !== -1 || s.indexOf("environment") !== -1) {
@@ -365,6 +515,15 @@
       return "World";
     }
 
+    function escapeHtml(text) {
+      return String(text || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
     function makeClickable(text) {
       return text.split(/(\s+)/).map(function(part) {
         if (!part.trim()) return part;
@@ -372,32 +531,8 @@
         var cleaned = cleanWord(part);
         if (!cleaned) return part;
 
-        var span = '<span class="word" data-word="' + part.replace(/"/g, "&quot;") + '">' + part + '</span>';
-        return span;
+        return '<span class="word" data-word="' + escapeHtml(part) + '">' + escapeHtml(part) + '</span>';
       }).join("");
-    }
-
-    function showMeaning(word) {
-      var cleaned = cleanWord(word);
-      var entry = dictionary[cleaned];
-
-      document.getElementById("popupWord").innerText = word;
-
-      if (entry) {
-        document.getElementById("popupMeaning").innerText = entry.meaning;
-        document.getElementById("popupTranslation").innerText = "Deutsch: " + entry.translation;
-      } else {
-        document.getElementById("popupMeaning").innerText = "No saved explanation for this word yet.";
-        document.getElementById("popupTranslation").innerText = "Deutsch: keine gespeicherte Übersetzung";
-      }
-
-      document.getElementById("popup").style.display = "block";
-      document.getElementById("popupBackdrop").style.display = "block";
-    }
-
-    function closePopup() {
-      document.getElementById("popup").style.display = "none";
-      document.getElementById("popupBackdrop").style.display = "none";
     }
 
     function renderNews() {
@@ -417,21 +552,11 @@
         var card = document.createElement("div");
         card.className = "card";
 
-        var category = document.createElement("div");
-        category.className = "category";
-        category.textContent = article.category;
+        card.innerHTML =
+          '<div class="category">' + escapeHtml(article.category) + '</div>' +
+          '<h2 class="title">' + escapeHtml(article.title) + '</h2>' +
+          '<p class="summary">' + makeClickable(article.summary) + '</p>';
 
-        var title = document.createElement("h2");
-        title.className = "title";
-        title.textContent = article.title;
-
-        var summary = document.createElement("p");
-        summary.className = "summary";
-        summary.innerHTML = makeClickable(article.summary);
-
-        card.appendChild(category);
-        card.appendChild(title);
-        card.appendChild(summary);
         news.appendChild(card);
       });
     }
@@ -441,8 +566,6 @@
       news.innerHTML = '<div class="loading-card">Loading news...</div>';
 
       try {
-        
-
         var response = await fetch("/api/news");
         var data = await response.json();
 
@@ -463,9 +586,232 @@
       }
     }
 
-    document.getElementById("refreshBtn").addEventListener("click", function() {
-      loadNews();
-    });
+    function isWordInStudyList(word) {
+      var cleaned = cleanWord(word);
+      return studyWords.some(function(item) {
+        return item.word === cleaned;
+      });
+    }
+
+    function updateAddButton() {
+      var btn = document.getElementById("addStudyBtn");
+
+      if (!currentPopupEntry) {
+        btn.disabled = true;
+        btn.textContent = "Loading...";
+        btn.style.opacity = "0.6";
+        return;
+      }
+
+      btn.disabled = false;
+      btn.style.opacity = "1";
+
+      if (isWordInStudyList(currentPopupEntry.word)) {
+        btn.textContent = "Already saved";
+      } else {
+        btn.textContent = "Add to unknown words";
+      }
+    }
+
+    function openPopup() {
+      document.getElementById("popup").style.display = "block";
+      document.getElementById("popupBackdrop").style.display = "block";
+    }
+
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
+      document.getElementById("popupBackdrop").style.display = "none";
+    }
+
+    function fillPopup(entry) {
+      document.getElementById("popupWord").textContent = entry.word;
+      document.getElementById("popupMeta").textContent = entry.partOfSpeech ? entry.partOfSpeech : "";
+      document.getElementById("popupMeaning").textContent = entry.meaning || "No explanation found.";
+      document.getElementById("popupTranslation").textContent = "Deutsch: " + (entry.translation || "Keine Übersetzung gefunden");
+
+      currentPopupEntry = entry;
+      updateAddButton();
+    }
+
+    async function showMeaning(rawWord) {
+      var cleaned = cleanWord(rawWord);
+      if (!cleaned) return;
+
+      currentPopupEntry = null;
+      document.getElementById("popupWord").textContent = cleaned;
+      document.getElementById("popupMeta").textContent = "";
+      document.getElementById("popupMeaning").textContent = "Loading word explanation...";
+      document.getElementById("popupTranslation").textContent = "Deutsch: wird geladen...";
+      updateAddButton();
+      openPopup();
+
+      if (wordCache[cleaned]) {
+        fillPopup(wordCache[cleaned]);
+        return;
+      }
+
+      try {
+        var response = await fetch("/api/word?word=" + encodeURIComponent(cleaned));
+        var data = await response.json();
+
+        var entry = {
+          word: cleaned,
+          meaning: data.meaning || "No explanation found.",
+          translation: data.translation || "Keine Übersetzung gefunden",
+          partOfSpeech: data.partOfSpeech || ""
+        };
+
+        wordCache[cleaned] = entry;
+        saveJSON("wordCacheV1", wordCache);
+        fillPopup(entry);
+      } catch (error) {
+        console.error(error);
+        fillPopup({
+          word: cleaned,
+          meaning: "Could not load explanation right now.",
+          translation: "Keine Übersetzung gefunden",
+          partOfSpeech: ""
+        });
+      }
+    }
+
+    function addCurrentWordToStudy() {
+      if (!currentPopupEntry) return;
+      if (isWordInStudyList(currentPopupEntry.word)) {
+        updateAddButton();
+        return;
+      }
+
+      studyWords.unshift({
+        word: currentPopupEntry.word,
+        meaning: currentPopupEntry.meaning,
+        translation: currentPopupEntry.translation,
+        partOfSpeech: currentPopupEntry.partOfSpeech || ""
+      });
+
+      saveJSON("studyWordsV1", studyWords);
+      updateAddButton();
+      renderStudyList();
+      renderFlashcard();
+    }
+
+    function removeStudyWord(word) {
+      studyWords = studyWords.filter(function(item) {
+        return item.word !== word;
+      });
+      saveJSON("studyWordsV1", studyWords);
+
+      if (currentFlashIndex >= studyWords.length) {
+        currentFlashIndex = 0;
+      }
+
+      renderStudyList();
+      renderFlashcard();
+      updateAddButton();
+    }
+
+    function clearStudyWords() {
+      studyWords = [];
+      saveJSON("studyWordsV1", studyWords);
+      currentFlashIndex = 0;
+      flashcardFlipped = false;
+      renderStudyList();
+      renderFlashcard();
+      updateAddButton();
+    }
+
+    function renderStudyList() {
+      var list = document.getElementById("studyList");
+
+      if (!studyWords.length) {
+        list.innerHTML = '<div class="loading-card">No saved words yet. Open a word popup and add a word.</div>';
+        return;
+      }
+
+      list.innerHTML = '<div class="study-grid">' + studyWords.map(function(item) {
+        return (
+          '<div class="study-item">' +
+            '<div class="study-top">' +
+              '<div>' +
+                '<h3 class="study-word">' + escapeHtml(item.word) + '</h3>' +
+                '<div class="study-translation">Deutsch: ' + escapeHtml(item.translation || "Keine Übersetzung") + '</div>' +
+              '</div>' +
+              '<button class="danger-btn remove-study-btn" data-word="' + escapeHtml(item.word) + '">Remove</button>' +
+            '</div>' +
+            '<p class="study-meaning">' + escapeHtml(item.meaning || "No explanation found.") + '</p>' +
+          '</div>'
+        );
+      }).join("") + '</div>';
+    }
+
+    function renderFlashcard() {
+      var wrap = document.getElementById("flashcardWrap");
+
+      if (!studyWords.length) {
+        wrap.innerHTML = '<div class="loading-card">Add some unknown words first to start learning.</div>';
+        return;
+      }
+
+      if (currentFlashIndex >= studyWords.length) {
+        currentFlashIndex = 0;
+      }
+
+      var item = studyWords[currentFlashIndex];
+      var main = flashcardFlipped ? (item.translation || "Keine Übersetzung") : item.word;
+      var sub = flashcardFlipped
+        ? (item.meaning || "No explanation found.")
+        : "Think about the meaning, then flip the card.";
+
+      wrap.innerHTML =
+        '<div class="flashcard">' +
+          '<div class="flashcard-label">' + (flashcardFlipped ? 'Answer' : 'Question') + '</div>' +
+          '<div class="flashcard-main">' + escapeHtml(main) + '</div>' +
+          '<div class="flashcard-sub">' + escapeHtml(sub) + '</div>' +
+        '</div>' +
+        '<div class="flashcard-actions">' +
+          '<button class="secondary-btn" id="flipCardBtn">Flip card</button>' +
+          '<button class="primary-btn" id="nextCardBtn">Next card</button>' +
+        '</div>';
+
+      document.getElementById("flipCardBtn").addEventListener("click", function() {
+        flashcardFlipped = !flashcardFlipped;
+        renderFlashcard();
+      });
+
+      document.getElementById("nextCardBtn").addEventListener("click", function() {
+        currentFlashIndex = (currentFlashIndex + 1) % studyWords.length;
+        flashcardFlipped = false;
+        renderFlashcard();
+      });
+    }
+
+    function showNewsTab() {
+      document.getElementById("newsSection").classList.remove("hidden");
+      document.getElementById("studySection").classList.add("hidden");
+
+      document.getElementById("newsTabBtn").classList.add("active");
+      document.getElementById("newsTabBtn").style.background = "var(--primary)";
+      document.getElementById("newsTabBtn").style.color = "white";
+
+      document.getElementById("studyTabBtn").classList.remove("active");
+      document.getElementById("studyTabBtn").style.background = "var(--surface-2)";
+      document.getElementById("studyTabBtn").style.color = "var(--primary)";
+    }
+
+    function showStudyTab() {
+      document.getElementById("newsSection").classList.add("hidden");
+      document.getElementById("studySection").classList.remove("hidden");
+
+      document.getElementById("studyTabBtn").classList.add("active");
+      document.getElementById("studyTabBtn").style.background = "var(--primary)";
+      document.getElementById("studyTabBtn").style.color = "white";
+
+      document.getElementById("newsTabBtn").classList.remove("active");
+      document.getElementById("newsTabBtn").style.background = "var(--surface-2)";
+      document.getElementById("newsTabBtn").style.color = "var(--primary)";
+    }
+
+    document.getElementById("refreshBtn").addEventListener("click", loadNews);
 
     document.querySelectorAll(".chip").forEach(function(button) {
       button.addEventListener("click", function() {
@@ -486,9 +832,23 @@
       }
     });
 
+    document.getElementById("studyList").addEventListener("click", function(event) {
+      if (event.target.classList.contains("remove-study-btn")) {
+        var word = event.target.getAttribute("data-word");
+        removeStudyWord(word);
+      }
+    });
+
+    document.getElementById("addStudyBtn").addEventListener("click", addCurrentWordToStudy);
     document.getElementById("closePopupBtn").addEventListener("click", closePopup);
     document.getElementById("popupBackdrop").addEventListener("click", closePopup);
+    document.getElementById("clearStudyBtn").addEventListener("click", clearStudyWords);
 
+    document.getElementById("newsTabBtn").addEventListener("click", showNewsTab);
+    document.getElementById("studyTabBtn").addEventListener("click", showStudyTab);
+
+    renderStudyList();
+    renderFlashcard();
     loadNews();
   </script>
 </body>
